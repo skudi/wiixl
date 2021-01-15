@@ -8,9 +8,10 @@ More info : http://frontier-dev.net
 
 ********************************************************************************************/
 #include <stdio.h>
+#include <string.h>
 #include <malloc.h>
 #include "pngu.h"
-#include <png/png.h>
+#include <png.h>
 
 // Constants
 #define PNGU_SOURCE_BUFFER			1

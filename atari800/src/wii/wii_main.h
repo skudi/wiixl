@@ -3,6 +3,7 @@
 
 #include <gccore.h>
 #include <sys/dir.h>
+#include <sys/param.h>
 #include <unistd.h>
 
 

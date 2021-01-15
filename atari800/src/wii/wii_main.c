@@ -27,7 +27,7 @@ distribution.
 #include <wiiuse/wpad.h>
 #include <gccore.h>
 #include <stdio.h>
-#include <sdl.h>
+#include <SDL.h>
 
 #include "atari.h"
 

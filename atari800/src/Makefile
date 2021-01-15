@@ -9,6 +9,8 @@ endif
 
 #include $(DEVKITPPC)/gamecube_rules
 include $(DEVKITPPC)/wii_rules
+SDL_LIBS=$(shell $(DEVKITPRO)/portlibs/wii/bin/sdl-config --libs)
+SDL_CFLAGS=$(shell $(DEVKITPRO)/portlibs/wii/bin/sdl-config --cflags)
 
 #---------------------------------------------------------------------------------
 # TARGET is the name of the output
@@ -21,13 +23,12 @@ TARGET      :=  boot
 BUILD		:=	build
 SOURCES		:=	. ./wii ./wii/pngu
 DATA		:=	data  
-INCLUDES	:=	include . ./wii
+INCLUDES	:=	include . ./wii $(shell $(DEVKITPRO)/portlibs/ppc/bin/libpng-config --I_opts)
 
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
 
-#CFLAGS	= -g -O2 -Wall $(MACHDEP) $(INCLUDE) -D_REENTRANT -DHAVE_CONFIG_H -DINTERPOLATE_SOUND -DSTEREO_SOUND -DVOL_ONLY_SOUND -DCONSOLE_SOUND
 CFLAGS	= -g -O1 -Wall $(MACHDEP) $(INCLUDE) -DHAVE_CONFIG_H -DWII -DSOUND -DINTERPOLATE_SOUND -DSTEREO_SOUND -DVOL_ONLY_SOUND -DCONSOLE_SOUND
 CXXFLAGS	=	$(CFLAGS)
 
@@ -37,9 +38,7 @@ LDFLAGS	=	-g $(MACHDEP) -Wl,-Map,$(notdir $@).map
 # any extra libraries we wish to link with the project
 #---------------------------------------------------------------------------------
 #LIBS	:=	-logc -lm
-LIBS	:=	-lSDL -lfat -lwiiuse -lbte -logc -lm -lpng -lz
-
-#LIBS	:=	-lSDL_mixer -lSDL_image -lSDL -lfat -lwiiuse -lbte -logc -lm 
+LIBS	:=	$(SDL_LIBS) -lfat -lwiiuse -lbte -logc -lm -lpng -lz
 
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing
@@ -67,8 +66,8 @@ export DEPSDIR	:=	$(CURDIR)/$(BUILD)
 #CFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.c)))
 
 CFILES := \
-    antic.c \
-    atari.c \
+  antic.c \
+  atari.c \
 	binload.c \
 	cartridge.c \
 	cassette.c \
@@ -132,13 +131,13 @@ export OFILES	:=	$(addsuffix .o,$(BINFILES)) \
 export INCLUDE	:=	$(foreach dir,$(INCLUDES),-I$(CURDIR)/$(dir)) \
 					$(foreach dir,$(LIBDIRS),-I$(dir)/include) \
 					-I$(CURDIR)/$(BUILD) \
-					-I$(LIBOGC_INC) -I$(LIBOGC_INC)/sdl
+					-I$(LIBOGC_INC) $(SDL_CFLAGS)
 
 #---------------------------------------------------------------------------------
 # build a list of library paths
 #---------------------------------------------------------------------------------
 export LIBPATHS	:=	$(foreach dir,$(LIBDIRS),-L$(dir)/lib) \
-					-L$(LIBOGC_LIB) -I$(LIBOGC_LIB)/sdl
+					-L$(LIBOGC_LIB) $(SDL_LIBS)
 
 
 export OUTPUT	:=	$(CURDIR)/$(TARGET)

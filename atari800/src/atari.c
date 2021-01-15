@@ -56,7 +56,7 @@
 #include <zlib.h>
 #endif
 #ifdef WII
-#include <sdl.h>
+#include <SDL.h>
 #endif
 
 #include "antic.h"
@@ -109,8 +109,8 @@
 #endif /* __PLUS */
 
 #ifdef WII
-#include "wii\wii_app.h"
-#include "wii\wii_atari.h"
+#include "wii_app.h"
+#include "wii_atari.h"
 #endif
 
 int machine_type = MACHINE_XLXE;

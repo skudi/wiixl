@@ -52,7 +52,7 @@
 #endif
 
 #ifdef WII
-#include "wii\wii_atari.h"
+#include "wii_atari.h"
 #endif
 
 #ifdef _WIN32_WCE
